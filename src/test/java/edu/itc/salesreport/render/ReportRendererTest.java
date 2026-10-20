@@ -1,4 +1,4 @@
-package test.java.edu.itc.salesreport.render;
+package edu.itc.salesreport.render;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
