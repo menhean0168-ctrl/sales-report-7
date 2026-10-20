@@ -1,0 +1,28 @@
+flowchart TB
+  analyst["Head-office Analyst<br/>[Person]"]
+  manager["Branch Manager<br/>[Person]"]
+  pos["Branch POS Systems<br/>[External System]"]
+  mail["Email Service<br/>[External System]"]
+
+  subgraph system["Monthly Sales Report System"]
+    ingest["Ingest Job<br/>[Java 25]<br/>Validates incoming files"]
+    landing[("CSV Landing Zone<br/>[File System]<br/>Stores incoming CSV files")]
+    batch["Report Batch<br/>[Java 25]<br/>Calculates summaries"]
+    render["Report Renderers<br/>[Java 25]<br/>Creates output formats"]
+    store[("Report Store<br/>[File System]<br/>Stores reports and metadata")]
+    desktop["Desktop Viewer<br/>[JavaFX]<br/>Shows reports to head office"]
+    web["Web Report Page<br/>[Web application]<br/>Shows authorized branch reports"]
+
+    ingest -->|"Reads/writes files [file system]"| landing
+    landing -->|"Reads CSV [file system]"| batch
+    batch -->|"Calls renderer [in-process call]"| render
+    render -->|"Writes reports [file system]"| store
+    desktop -->|"Reads reports [file system]"| store
+    web -->|"Reads reports [HTTPS]"| store
+  end
+
+  pos -->|"Uploads daily CSV files [SFTP]"| landing
+  analyst -->|"Views reports [HTTPS]"| web
+  analyst -->|"Views local reports [file system]"| desktop
+  manager -->|"Views own branch reports [HTTPS]"| web
+  batch -->|"Sends ready notification [SMTP]"| mail

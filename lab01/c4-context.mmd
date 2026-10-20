@@ -1,0 +1,13 @@
+flowchart TB
+  analyst["Head-office Analyst<br/>[Person]<br/>Views and exports all reports"]
+  manager["Branch Manager<br/>[Person]<br/>Views own branch only"]
+  finance["Finance Director<br/>[Person]<br/>Receives report-ready notification"]
+  system["Monthly Sales Report System<br/>[Software System]<br/>Ingests sales data and generates monthly reports"]
+  pos["Branch POS Systems (x3)<br/>[External System]<br/>Exports daily CSV files"]
+  mail["Email Service<br/>[External System]<br/>Delivers report notifications"]
+
+  analyst -->|"Views and exports reports"| system
+  manager -->|"Views own branch report"| system
+  finance -->|"Receives report notification"| mail
+  pos -->|"Uploads daily CSV files [SFTP]"| system
+  system -->|"Sends report-ready email [SMTP]"| mail
