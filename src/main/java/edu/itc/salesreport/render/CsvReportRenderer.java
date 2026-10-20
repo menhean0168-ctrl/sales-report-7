@@ -1,4 +1,4 @@
-package main.java.edu.itc.salesreport.render;
+package edu.itc.salesreport.render;
 
 import edu.itc.salesreport.model.BranchSummary;
 import edu.itc.salesreport.model.MonthlyReport;
